@@ -9,5 +9,15 @@
         public void IncreaseQuality() {
             Quality++;
         }
+
+        public void DecreasesQuality() {
+            Quality--;
+        }
+
+        public bool IsANormalItem() {
+            return  Name != "Aged Brie" || 
+                    Name != "Backstage passes to a TAFKAL80ETC concert" ||
+                    Name != "Sulfuras, Hand of Ragnaros";
+        }
     }
 }
