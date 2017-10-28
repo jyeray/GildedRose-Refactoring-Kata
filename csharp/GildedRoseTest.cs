@@ -1,18 +1,33 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using FluentAssertions;
 
-namespace csharp
-{
+namespace csharp {
     [TestFixture]
-    public class GildedRoseTest
-    {
+    public class GildedRoseTest {
+
         [Test]
-        public void foo()
-        {
-            IList<Item> Items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 0 } };
-            GildedRose app = new GildedRose(Items);
+        public void sellIn_decreases() {
+            var item = new Item {Name = "foo", SellIn = 10, Quality = 10};
+            var app = GivenAGildedRoseWith(item);
+
             app.UpdateQuality();
-            Assert.AreEqual("fixme", Items[0].Name);
+
+            item.SellIn.Should().Be(9);
+        }
+
+        [Test]
+        public void Quality_decreases() {
+            var item = new Item { Name = "foo", SellIn = 10, Quality = 10 };
+            var app = GivenAGildedRoseWith(item);
+
+            app.UpdateQuality();
+
+            item.Quality.Should().Be(9);
+        }
+
+        private GildedRose GivenAGildedRoseWith(Item item) {
+            return new GildedRose(new List<Item> {item});
         }
     }
 }
