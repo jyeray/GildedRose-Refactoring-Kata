@@ -93,6 +93,23 @@ namespace csharp {
             item.SellIn.Should().Be(sellIn);
         }
 
+        [Test]
+        public void Backstage_passes_increases_quality_when_day_passes() {
+            const int sellIn = 15;
+            const int quality = 20;
+            var item = ABackstagePasses(sellIn, quality);
+            var app = GivenAGildedRoseWith(item);
+
+            app.UpdateQuality();
+
+            item.Quality.Should().Be(quality + 1);
+            item.SellIn.Should().Be(sellIn - 1);
+        }
+
+        private Item ABackstagePasses(int sellIn, int quality) {
+            return AnItemWith(sellIn, quality, "Backstage passes to a TAFKAL80ETC concert");
+        }
+
         private Item ASulfrurasItem(int sellIn, int quality) {
             return AnItemWith(sellIn, quality, "Sulfuras, Hand of Ragnaros");
         }
