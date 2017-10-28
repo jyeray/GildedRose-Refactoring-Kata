@@ -4,69 +4,39 @@ namespace csharp
 {
     public class GildedRose
     {
-        IList<Item> Items;
-        public GildedRose(IList<Item> Items)
+        IList<GildedRoseItem> Items;
+        public GildedRose(IList<GildedRoseItem> Items)
         {
             this.Items = Items;
         }
 
         public void UpdateQuality()
         {
-            for (var i = 0; i < Items.Count; i++)
-            {
-                if (Items[i].IsANormalItem()) {
-                    if (Items[i].Quality > 0) {
-                            Items[i].DecreasesQuality();
-                    }
-                }
-                if (Items[i].Name == "Aged Brie" || Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
+            for (var i = 0; i < Items.Count; i++) {
+                var item = Items[i];
+                item.UpdateQuality();
+
+                if (item.Name != "Sulfuras, Hand of Ragnaros")
                 {
-                    if (Items[i].Quality < 50)
+                    item.SellIn = item.SellIn - 1;
+                }
+
+                if (item.SellIn < 0)
+                {
+                    if (item.Name == "Backstage passes to a TAFKAL80ETC concert") {
+                        item.Quality = item.Quality - item.Quality;
+                    }
+                    if (item.IsANormalItem()) {
+                        if (item.Quality > 0) {
+                            item.Quality--;
+                        }
+                    }
+                    if (item.Name == "Aged Brie")
                     {
-                        Items[i].IncreaseQuality();
-
-                        if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert") {
-                            IncreaseBackstagePassesQuality(i);
+                        if (item.Quality < 50) {
+                            item.Quality++;
                         }
                     }
-                }
-
-                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    Items[i].SellIn = Items[i].SellIn - 1;
-                }
-
-                if (Items[i].SellIn < 0)
-                {
-                    if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert") {
-                        Items[i].Quality = Items[i].Quality - Items[i].Quality;
-                    }
-                    if (Items[i].IsANormalItem()) {
-                        if (Items[i].Quality > 0) {
-                             Items[i].DecreasesQuality();
-                        }
-                    }
-                    if (Items[i].Name == "Aged Brie")
-                    {
-                        if (Items[i].Quality < 50)
-                        {
-                            Items[i].IncreaseQuality();
-                        }
-                    }
-                }
-            }
-        }
-
-        private void IncreaseBackstagePassesQuality(int i) {
-            if (Items[i].SellIn < 11) {
-                if (Items[i].Quality < 50) {
-                    Items[i].IncreaseQuality();
-                }
-            }
-
-            if (Items[i].SellIn < 6) {
-                if (Items[i].Quality < 50) {
-                    Items[i].IncreaseQuality();
                 }
             }
         }

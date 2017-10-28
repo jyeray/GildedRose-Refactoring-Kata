@@ -19,5 +19,34 @@
                     Name != "Backstage passes to a TAFKAL80ETC concert" &&
                     Name != "Sulfuras, Hand of Ragnaros";
         }
+
+        public void OneDayMore() {
+            if (this.IsANormalItem()) {
+                if (this.Quality > 0) {
+                    this.DecreasesQuality();
+                }
+            }
+            if (this.Name == "Aged Brie") {
+                if (this.Quality < 50) {
+                    this.IncreaseQuality();
+                }
+            }
+            if (this.Name == "Backstage passes to a TAFKAL80ETC concert") {
+                if (this.Quality < 50) {
+                    this.IncreaseQuality();
+                    if (this.SellIn < 11) {
+                        if (this.Quality < 50) {
+                            this.IncreaseQuality();
+                        }
+                    }
+
+                    if (this.SellIn < 6) {
+                        if (this.Quality < 50) {
+                            this.IncreaseQuality();
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -133,24 +133,28 @@ namespace csharp {
             item.SellIn.Should().Be(noSellIn - 1);
         }
 
-        private Item ABackstagePasses(int sellIn, int quality) {
-            return AnItemWith(sellIn, quality, "Backstage passes to a TAFKAL80ETC concert");
+        private BackstageItem ABackstagePasses(int sellIn, int quality) {
+            return new BackstageItem {
+                Name = "Backstage passes to a TAFKAL80ETC concert",
+                SellIn = sellIn,
+                Quality = quality
+            };
         }
 
-        private Item ASulfrurasItem(int sellIn, int quality) {
-            return AnItemWith(sellIn, quality, "Sulfuras, Hand of Ragnaros");
+        private SulfurasItem ASulfrurasItem(int sellIn, int quality) {
+            return new SulfurasItem {Name = "Sulfuras, Hand of Ragnaros", SellIn = sellIn, Quality = quality};
         }
 
-        private Item AnAgedBrieItem(int sellIn, int quality) {
-            return AnItemWith(sellIn, quality,"Aged Brie");
+        private AgedBrieItem AnAgedBrieItem(int sellIn, int quality) {
+            return new AgedBrieItem {Name = "Aged Brie", SellIn = sellIn, Quality = quality};
         }
 
-        private GildedRose GivenAGildedRoseWith(Item item) {
-            return new GildedRose(new List<Item> {item});
+        private GildedRose GivenAGildedRoseWith(GildedRoseItem item) {
+            return new GildedRose(new List<GildedRoseItem> {item});
         }
 
-        private Item AnItemWith(int sellIn, int quality, string name = "foo") {
-            return new Item { Name = name, SellIn = sellIn, Quality = quality };
+        private NormalItem AnItemWith(int sellIn, int quality, string name = "foo") {
+            return new NormalItem { Name = name, SellIn = sellIn, Quality = quality };
         }
     }
 }
