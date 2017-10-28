@@ -5,24 +5,23 @@ using FluentAssertions;
 namespace csharp {
     [TestFixture]
     public class GildedRoseTest {
+        private const int MaxQualityOfAnItem = 50;
+        private const int SellIn = 10;
+        private const int Quality = 10;
 
         [Test]
         public void sellIn_decreases() {
-            const int sellIn = 10;
-            const int quality = 10;
-            var item = AnItemWith(sellIn, quality, "foo");
+            var item = AnItemWith(SellIn, Quality, "foo");
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
-            item.SellIn.Should().Be(9);
+            item.SellIn.Should().Be(SellIn - 1);
         }
 
         [Test]
         public void Quality_decreases() {
-            const int sellIn = 10;
-            const int quality = 10;
-            var item = AnItemWith(sellIn, quality, "foo");
+            var item = AnItemWith(SellIn, Quality, "foo");
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
@@ -32,9 +31,8 @@ namespace csharp {
 
         [Test]
         public void Quality_decreased_twice_when_sellIn_has_passed() {
-            const int sellIn = 0;
-            const int quality = 10;
-            var item = AnItemWith(sellIn, quality, "foo");
+            const int noSellIn = 0;
+            var item = AnItemWith(noSellIn, Quality, "foo");
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
@@ -44,9 +42,8 @@ namespace csharp {
 
         [Test]
         public void Quality_is_never_negative() {
-            const int sellIn = 10;
-            const int quality = 0;
-            var item = AnItemWith(sellIn, quality);
+            const int noQuality = 0;
+            var item = AnItemWith(SellIn, noQuality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
@@ -57,9 +54,8 @@ namespace csharp {
 
         [Test]
         public void AgeBrie_increases_quality_older_its_gets() {
-            const int sellIn = 10;
             const int quality = 5;
-            var item = AnAgedBrieItem(sellIn, quality);
+            var item = AnAgedBrieItem(SellIn, quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
@@ -70,79 +66,71 @@ namespace csharp {
 
         [Test]
         public void quality_is_never_more_than_50() {
-            const int sellIn = 10;
-            const int maxQualityOfAnItem = 50;
-            var item = AnAgedBrieItem(sellIn, maxQualityOfAnItem);
+            var item = AnAgedBrieItem(SellIn, MaxQualityOfAnItem);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
-            item.Quality.Should().Be(maxQualityOfAnItem);
+            item.Quality.Should().Be(MaxQualityOfAnItem);
         }
 
         [Test]
         public void Sulfuras_never_has_to_be_sold() {
-            const int sellIn = 10;
-            const int quality = 20;
-            var item = ASulfrurasItem(sellIn, quality);
+            var item = ASulfrurasItem(SellIn, Quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
-            item.Quality.Should().Be(quality);
-            item.SellIn.Should().Be(sellIn);
+            item.Quality.Should().Be(Quality);
+            item.SellIn.Should().Be(SellIn);
         }
 
         [Test]
         public void Backstage_passes_increases_quality_when_day_passes() {
             const int sellIn = 15;
-            const int quality = 20;
-            var item = ABackstagePasses(sellIn, quality);
+            var item = ABackstagePasses(sellIn, Quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
-            item.Quality.Should().Be(quality + 1);
+            item.Quality.Should().Be(Quality + 1);
             item.SellIn.Should().Be(sellIn - 1);
         }
 
         [Test]
         public void Backstage_passes_increases_double_quality_when_sell_in_day_ten_or_less() {
             const int sellIn = 10;
-            const int quality = 20;
-            var item = ABackstagePasses(sellIn, quality);
+            var item = ABackstagePasses(sellIn, Quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
-            item.Quality.Should().Be(quality + 2);
+            item.Quality.Should().Be(Quality + 2);
             item.SellIn.Should().Be(sellIn - 1);
         }
 
         [Test]
         public void Backstage_passes_increases_three_quality_when_sell_in_day_five_or_less() {
             const int sellIn = 5;
-            const int quality = 20;
-            var item = ABackstagePasses(sellIn, quality);
+            var item = ABackstagePasses(sellIn, Quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
-            item.Quality.Should().Be(quality + 3);
+            item.Quality.Should().Be(Quality + 3);
             item.SellIn.Should().Be(sellIn - 1);
         }
 
         [Test]
         public void Backstage_passes_drops_quality_to_zero_when_date_has_passed() {
-            const int sellIn = 1;
-            const int quality = 20;
-            var item = ABackstagePasses(sellIn, quality);
+            const int noSellIn = 0;
+            var item = ABackstagePasses(noSellIn, Quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
             item.Quality.Should().Be(0);
-            item.SellIn.Should().Be(sellIn - 1);
+            item.SellIn.Should().Be(noSellIn - 1);
         }
 
         private Item ABackstagePasses(int sellIn, int quality) {
