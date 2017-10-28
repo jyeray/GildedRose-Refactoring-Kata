@@ -59,7 +59,7 @@ namespace csharp {
         public void AgeBrie_increases_quality_older_its_gets() {
             const int sellIn = 10;
             const int quality = 5;
-            var item = AnItemWith(sellIn, quality,"Aged Brie");
+            var item = AnAgedBrieItem(sellIn, quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
@@ -71,26 +71,34 @@ namespace csharp {
         [Test]
         public void quality_is_never_more_than_50() {
             const int sellIn = 10;
-            const int quality = 50;
-            var item = AnItemWith(sellIn, quality,"Aged Brie");
+            const int maxQualityOfAnItem = 50;
+            var item = AnAgedBrieItem(sellIn, maxQualityOfAnItem);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
-            item.Quality.Should().Be(50);
+            item.Quality.Should().Be(maxQualityOfAnItem);
         }
 
         [Test]
         public void Sulfuras_never_has_to_be_sold() {
             const int sellIn = 10;
             const int quality = 20;
-            var item = AnItemWith(sellIn, quality, "Sulfuras, Hand of Ragnaros");
+            var item = ASulfrurasItem(sellIn, quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
 
-            item.Quality.Should().Be(20);
-            item.SellIn.Should().Be(10);
+            item.Quality.Should().Be(quality);
+            item.SellIn.Should().Be(sellIn);
+        }
+
+        private Item ASulfrurasItem(int sellIn, int quality) {
+            return AnItemWith(sellIn, quality, "Sulfuras, Hand of Ragnaros");
+        }
+
+        private Item AnAgedBrieItem(int sellIn, int quality) {
+            return AnItemWith(sellIn, quality,"Aged Brie");
         }
 
         private GildedRose GivenAGildedRoseWith(Item item) {
