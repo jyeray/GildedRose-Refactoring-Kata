@@ -13,6 +13,10 @@
             return false;
         }
 
+        public void DecreaseSellIn() {
+            SellIn--;
+        }
+
         private void IncreaseQuality() {
             Quality++;
         }

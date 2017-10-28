@@ -10,5 +10,9 @@
         public bool IsANormalItem() {
             return false;
         }
+
+        public void DecreaseSellIn() {
+            
+        }
     }
 }

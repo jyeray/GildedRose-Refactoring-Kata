@@ -8,6 +8,13 @@
             if (this.Quality > 0) {
                 this.DecreasesQuality();
             }
+            if (SellIn < 0) {
+                DecreasesQuality();
+            }
+
+        }
+        public void DecreaseSellIn() {
+            SellIn--;
         }
 
         public bool IsANormalItem() {

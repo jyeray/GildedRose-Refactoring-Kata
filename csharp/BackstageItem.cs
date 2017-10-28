@@ -17,6 +17,12 @@
                     }
                 }
             }
+            if (SellIn < 0) {
+                Quality = 0;
+            }
+        }
+        public void DecreaseSellIn() {
+            SellIn--;
         }
 
         public bool IsANormalItem() {
