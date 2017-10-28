@@ -8,7 +8,9 @@ namespace csharp {
 
         [Test]
         public void sellIn_decreases() {
-            var item = new Item {Name = "foo", SellIn = 10, Quality = 10};
+            const int sellIn = 10;
+            const int quality = 10;
+            var item = AnItemWith(sellIn, quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
@@ -18,7 +20,9 @@ namespace csharp {
 
         [Test]
         public void Quality_decreases() {
-            var item = new Item { Name = "foo", SellIn = 10, Quality = 10 };
+            const int sellIn = 10;
+            const int quality = 10;
+            var item = AnItemWith(sellIn, quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
@@ -28,7 +32,9 @@ namespace csharp {
 
         [Test]
         public void Quality_decreased_twice_when_sellIn_has_passed() {
-            var item = new Item { Name = "foo", SellIn = 0, Quality = 10 };
+            const int sellIn = 0;
+            const int quality = 10;
+            var item = AnItemWith(sellIn, quality);
             var app = GivenAGildedRoseWith(item);
 
             app.UpdateQuality();
@@ -36,10 +42,12 @@ namespace csharp {
             item.Quality.Should().Be(8);
         }
 
-        
-
         private GildedRose GivenAGildedRoseWith(Item item) {
             return new GildedRose(new List<Item> {item});
+        }
+
+        private Item AnItemWith(int sellIn, int quality) {
+            return new Item { Name = "foo", SellIn = sellIn, Quality = quality };
         }
     }
 }
