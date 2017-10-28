@@ -106,6 +106,19 @@ namespace csharp {
             item.SellIn.Should().Be(sellIn - 1);
         }
 
+        [Test]
+        public void Backstage_passes_increases_double_quality_when_sell_in_day_ten_or_less() {
+            const int sellIn = 10;
+            const int quality = 20;
+            var item = ABackstagePasses(sellIn, quality);
+            var app = GivenAGildedRoseWith(item);
+
+            app.UpdateQuality();
+
+            item.Quality.Should().Be(quality + 2);
+            item.SellIn.Should().Be(sellIn - 1);
+        }
+
         private Item ABackstagePasses(int sellIn, int quality) {
             return AnItemWith(sellIn, quality, "Backstage passes to a TAFKAL80ETC concert");
         }
