@@ -80,6 +80,19 @@ namespace csharp {
             item.Quality.Should().Be(50);
         }
 
+        [Test]
+        public void Sulfuras_never_has_to_be_sold() {
+            const int sellIn = 10;
+            const int quality = 20;
+            var item = AnItemWith(sellIn, quality, "Sulfuras, Hand of Ragnaros");
+            var app = GivenAGildedRoseWith(item);
+
+            app.UpdateQuality();
+
+            item.Quality.Should().Be(20);
+            item.SellIn.Should().Be(10);
+        }
+
         private GildedRose GivenAGildedRoseWith(Item item) {
             return new GildedRose(new List<Item> {item});
         }
