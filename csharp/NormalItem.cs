@@ -4,7 +4,7 @@
         public int SellIn { get; set; }
         public int Quality { get; set; }
 
-        public void UpdateQuality() {
+        public void RecalculateQuality() {
             if (this.Quality > 0) {
                 this.DecreasesQuality();
             }
@@ -15,10 +15,6 @@
         }
         public void DecreaseSellIn() {
             SellIn--;
-        }
-
-        public bool IsANormalItem() {
-            return true;
         }
 
         private void DecreasesQuality() {

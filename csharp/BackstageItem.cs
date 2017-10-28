@@ -3,34 +3,58 @@
         public string Name { get; set; }
         public int SellIn { get; set; }
         public int Quality { get; set; }
-        public void UpdateQuality() {
-            if (this.Quality < 50) {
-                this.IncreaseQuality();
-                if (this.SellIn < 11) {
-                    if (this.Quality < 50) {
-                        this.IncreaseQuality();
-                    }
-                }
-                if (this.SellIn < 6) {
-                    if (this.Quality < 50) {
-                        this.IncreaseQuality();
-                    }
-                }
+
+        public void RecalculateQuality() {
+            if (DateHavePassed()) {
+                DropQuality();
+                return;
             }
-            if (SellIn < 0) {
-                Quality = 0;
+            if (FiveDaysOrLess()) {
+                IncreaseQualityTriple();
+                return;
             }
+            if (TenDaysOrLessForConcert()) {
+                IncreaseQualityTwice();
+                return;
+            }
+           IncreaseQuality();
         }
+
+        private void IncreaseQualityTriple() {
+            this.IncreaseQuality();
+            this.IncreaseQuality();
+            this.IncreaseQuality();
+        }
+
+        private bool FiveDaysOrLess() {
+            return this.SellIn < 6;
+        }
+
+        private void IncreaseQualityTwice() {
+            this.IncreaseQuality();
+            this.IncreaseQuality();
+        }
+
+        private bool TenDaysOrLessForConcert() {
+            return this.SellIn < 11;
+        }
+
+        private void DropQuality() {
+            Quality = 0;
+        }
+
+        private bool DateHavePassed() {
+            return SellIn < 0;
+        }
+
         public void DecreaseSellIn() {
             SellIn--;
         }
 
-        public bool IsANormalItem() {
-            return false;
-        }
-
         private void IncreaseQuality() {
-            Quality++;
+            if (Quality < 50) {
+                Quality++;
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace csharp
         public void UpdateQuality() {
             foreach (var item in Items) {
                 item.DecreaseSellIn();
-                item.UpdateQuality();
+                item.RecalculateQuality();
             }
         }
     }

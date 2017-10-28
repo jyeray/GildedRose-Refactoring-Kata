@@ -3,12 +3,8 @@
         public string Name { get; set; }
         public int SellIn { get; set; }
         public int Quality { get; set; }
-        public void UpdateQuality() {
+        public void RecalculateQuality() {
             
-        }
-
-        public bool IsANormalItem() {
-            return false;
         }
 
         public void DecreaseSellIn() {
